@@ -1,0 +1,10 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/src/.vs/ModernGestures.WPF
+/src/ModernGestures.WPF/bin/Debug/net6.0-windows
+/src/ModernGestures.WPF/obj
+/src/ModernGestures.WPF.Demo/bin/Debug/net6.0-windows
+/src/ModernGestures.WPF.Demo/obj
