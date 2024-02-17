@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.8.34309.116
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernGestures.WPF", "ModernGestures.WPF\ModernGestures.WPF.csproj", "{6B767A05-8D7B-4B37-BF75-E369C0641991}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModernGestures.WPF.Demo", "ModernGestures.WPF.Demo\ModernGestures.WPF.Demo.csproj", "{14454FFE-C392-4753-ADFF-CBF248A384FA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{6B767A05-8D7B-4B37-BF75-E369C0641991}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6B767A05-8D7B-4B37-BF75-E369C0641991}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6B767A05-8D7B-4B37-BF75-E369C0641991}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6B767A05-8D7B-4B37-BF75-E369C0641991}.Release|Any CPU.Build.0 = Release|Any CPU
+		{14454FFE-C392-4753-ADFF-CBF248A384FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{14454FFE-C392-4753-ADFF-CBF248A384FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{14454FFE-C392-4753-ADFF-CBF248A384FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{14454FFE-C392-4753-ADFF-CBF248A384FA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {ECDA4DF1-4359-4D12-866A-74CA16E459D9}
+	EndGlobalSection
+EndGlobal

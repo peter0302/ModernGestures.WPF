@@ -1,0 +1,23 @@
+﻿<Window x:Class="ModernGestures.WPF.Demo.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mg="clr-namespace:ModernGestures.WPF;assembly=ModernGestures.WPF"
+        xmlns:local="clr-namespace:ModernGestures.WPF.Demo"
+        mc:Ignorable="d"        
+        mg:Gestures.RegisterWindow="True"
+        Title="MainWindow" Height="450" Width="800">
+    <Grid mg:Gestures.TapMode="Double"
+          mg:Gestures.Tapped="Grid_Tapped"
+          mg:Gestures.DoubleTapped="Grid_DoubleTapped"
+          Background="Yellow">
+        <Rectangle Width="100"
+                   Height="100"
+                   Fill="Orange"                                      
+                   mg:Gestures.Tapped="Rectangle_Tapped" />
+        <Button VerticalAlignment="Bottom" Click="Button_Click">
+            Click Me?
+        </Button>
+    </Grid>
+</Window>
