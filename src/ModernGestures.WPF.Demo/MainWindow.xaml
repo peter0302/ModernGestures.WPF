@@ -14,8 +14,13 @@
           Background="Yellow">
         <Rectangle Width="100"
                    Height="100"
-                   Fill="Orange"                                      
-                   mg:Gestures.Tapped="Rectangle_Tapped" />
+                   Fill="Orange"
+                   mg:Gestures.ManipulationMode="All"
+                   mg:Gestures.ManipulationDelta="Rectangle_ManipulationDelta">
+            <Rectangle.RenderTransform>
+                <TranslateTransform x:Name="_rectangleTransform" />
+            </Rectangle.RenderTransform>
+        </Rectangle>
         <Button VerticalAlignment="Bottom" Click="Button_Click">
             Click Me?
         </Button>

@@ -5,22 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
+using ICTest;
+
 namespace ModernGestures.WPF
 {
     public class GestureEventArgs : RoutedEventArgs
-    {
-        private Point _screenCoords;
-        private Point _feCoords;
-        private FrameworkElement _sender;
-
+    {        
         internal GestureEventArgs(
             FrameworkElement sender, 
-            Point screenCoords,
+            InteractionOutput output,
             RoutedEvent routedEvent) : base(routedEvent)
         {
-            _sender = sender;
-            _screenCoords = screenCoords;
-            _feCoords = this._sender.PointFromScreen(_screenCoords);
+            InteractionOutput = output;
+            Target = sender;
+            _screenCoords = new Point(output.Data.X, output.Data.Y);
+            _feCoords = this.Target.PointFromScreen(_screenCoords);
         }
 
         public Point GetPosition(IInputElement relativeTo)
@@ -32,5 +31,12 @@ namespace ModernGestures.WPF
                     ?.PointFromScreen(_screenCoords) 
                     ?? default;
         }
+
+        internal InteractionOutput InteractionOutput { get; private set; }
+        internal FrameworkElement Target { get; private set; }
+
+        private Point _screenCoords;
+        private Point _feCoords;
+        
     }
 }

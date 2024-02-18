@@ -8,7 +8,6 @@ namespace ModernGestures.WPF.Internal
 {
     // High WORD Secondary Button
     // Low WORD Primary Button
-
     [Flags]
     public enum TapMode : uint
     {

@@ -1,24 +1,23 @@
-﻿using ICTest;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Ink;
 using System.Windows.Input;
+
+using ICTest;
 
 namespace ModernGestures.WPF.Internal
 {
     internal class WPFGestureHandler : BaseHandler
     {
-        FrameworkElement _fe;
-
-        public WPFGestureHandler(FrameworkElement fe) 
-        { 
+        public WPFGestureHandler(FrameworkElement fe)
+        {
             _fe = fe;
         }
 
-        ModernManipulationMode _ManipulationMode;
         internal ModernManipulationMode ManipulationMode
         {
             get => _ManipulationMode;
@@ -29,7 +28,6 @@ namespace ModernGestures.WPF.Internal
             }
         }
 
-        TapMode _TapMode;
         internal TapMode TapMode
         {
             get => _TapMode;
@@ -46,14 +44,37 @@ namespace ModernGestures.WPF.Internal
             switch (output.Data.Interaction)
             {
                 case Win32.INTERACTION.TAP:
-                    GestureEventArgs args;                    
-                    if (output.Data.Tap.Count > 1)
-                        args = new DoubleTappedEventArgs(_fe, screenCoords);
-                    else
-                        args = new TappedEventArgs(_fe, screenCoords);                    
-                    this._fe.RaiseEvent(args);
+                    {
+                        GestureEventArgs args;
+                        if (output.Data.Tap.Count > 1)
+                            args = new DoubleTappedEventArgs(_fe, output);
+                        else
+                            args = new TappedEventArgs(_fe, output);
+                        this._fe.RaiseEvent(args);
+                    }
+                    break;
+                case Win32.INTERACTION.SECONDARY_TAP:
+                    {
+                        GestureEventArgs args;
+                        args = new RightTappedEventArgs(_fe, output);
+                        this._fe.RaiseEvent(args);
+                    }
                     break;
                 case Win32.INTERACTION.MANIPULATION:
+                    if (output.Data.InteractionFlags == Win32.INTERACTION_FLAGS.BEGIN)
+                    {
+                        var args = new ModernManipulationStartedEventArgs(
+                            _fe,
+                            output);
+                        this._fe.RaiseEvent(args);
+                    }
+                    else if (output.Data.InteractionFlags == Win32.INTERACTION_FLAGS.NONE)
+                    {
+                        var args = new ModernManipulationDeltaEventArgs(
+                            _fe,
+                            output);
+                        this._fe.RaiseEvent(args);
+                    }
                     break;
             }
         }
@@ -113,5 +134,9 @@ namespace ModernGestures.WPF.Internal
                 cfg.Count,
                 cfg.ToArray());
         }
+
+        FrameworkElement _fe;
+        ModernManipulationMode _ManipulationMode;
+        TapMode _TapMode;
     }
 }

@@ -17,6 +17,10 @@ namespace ModernGestures.WPF
 {
     public static class Gestures
     {
+        #region Public Properties and Accessors/Setters
+
+        #region RegisterWindow
+
         public static readonly DependencyProperty RegisterWindowProperty =
             DependencyProperty.RegisterAttached(
                 "RegisterWindow",
@@ -39,6 +43,10 @@ namespace ModernGestures.WPF
             obj.SetValue(RegisterWindowProperty, value);
         }
 
+        #endregion
+
+        #region ManipulationMode
+
         public static readonly DependencyProperty ManipulationModeProperty =
             DependencyProperty.RegisterAttached(
                 "ManipulationMode",
@@ -59,6 +67,10 @@ namespace ModernGestures.WPF
         {
             obj.SetValue(ManipulationModeProperty, value);
         }
+
+        #endregion
+
+        #region TapMode
 
         public static readonly DependencyProperty TapModeProperty =
             DependencyProperty.RegisterAttached(
@@ -81,6 +93,14 @@ namespace ModernGestures.WPF
             obj.SetValue(TapModeProperty, value);
         }
 
+        #endregion
+
+        #endregion
+
+        #region Public Events
+
+        #region Tapped
+
         public static readonly RoutedEvent TappedEvent = EventManager.RegisterRoutedEvent(
             "Tapped",
             RoutingStrategy.Bubble,
@@ -99,6 +119,32 @@ namespace ModernGestures.WPF
             fe.RemoveHandler(TappedEvent, handler);
         }
 
+        #endregion
+
+        #region RightTapped
+
+        public static readonly RoutedEvent RightTappedEvent = EventManager.RegisterRoutedEvent(
+            "RightTapped",
+            RoutingStrategy.Bubble,
+            typeof(RightTappedEventHandler),
+            typeof(FrameworkElement));
+        public static void AddRightTappedHandler(DependencyObject d, RightTappedEventHandler handler)
+        {
+            if (!(d is FrameworkElement fe))
+                return;
+            fe.AddHandler(RightTappedEvent, handler);
+        }
+        public static void RemoveRightTappedHandler(DependencyObject d, RightTappedEventHandler handler)
+        {
+            if (!(d is FrameworkElement fe))
+                return;
+            fe.RemoveHandler(RightTappedEvent, handler);
+        }
+
+        #endregion
+
+        #region DoubleTapped
+
         public static readonly RoutedEvent DoubleTappedEvent = EventManager.RegisterRoutedEvent(
             "DoubleTapped",
             RoutingStrategy.Bubble,
@@ -108,14 +154,62 @@ namespace ModernGestures.WPF
         {
             if (!(d is FrameworkElement fe))
                 return;
-            fe.AddHandler(TappedEvent, handler);
+            fe.AddHandler(DoubleTappedEvent, handler);
         }
         public static void RemoveDoubleTappedHandler(DependencyObject d, DoubleTappedEventHandler handler)
         {
             if (!(d is FrameworkElement fe))
                 return;
-            fe.RemoveHandler(TappedEvent, handler);
+            fe.RemoveHandler(DoubleTappedEvent, handler);
         }
+
+        #endregion
+
+        #region ManipulationStarted
+
+        public static readonly RoutedEvent ManipulationStartedEvent = EventManager.RegisterRoutedEvent(
+            "ManipulationStarted",
+            RoutingStrategy.Bubble,
+            typeof(ModernManipulationStartedEventHandler),
+            typeof(FrameworkElement));
+        public static void AddManipulationStartedHandler(DependencyObject d, ModernManipulationStartedEventHandler handler)
+        {
+            if (!(d is FrameworkElement fe))
+                return;
+            fe.AddHandler(ManipulationStartedEvent, handler);
+        }
+        public static void RemoveManipulationStartedHandler(DependencyObject d, ModernManipulationStartedEventHandler handler)
+        {
+            if (!(d is FrameworkElement fe))
+                return;
+            fe.RemoveHandler(ManipulationStartedEvent, handler);
+        }
+
+        #endregion
+
+        #region ManipulationDelta
+
+        public static readonly RoutedEvent ManipulationDeltaEvent = EventManager.RegisterRoutedEvent(
+            "ManipulationDelta",
+            RoutingStrategy.Bubble,
+            typeof(ModernManipulationDeltaEventHandler),
+            typeof(FrameworkElement));
+        public static void AddManipulationDeltaHandler(DependencyObject d, ModernManipulationDeltaEventHandler handler)
+        {
+            if (!(d is FrameworkElement fe))
+                return;
+            fe.AddHandler(ManipulationDeltaEvent, handler);
+        }
+        public static void RemoveManipulationDeltaHandler(DependencyObject d, ModernManipulationDeltaEventHandler handler)
+        {
+            if (!(d is FrameworkElement fe))
+                return;
+            fe.RemoveHandler(ManipulationDeltaEvent, handler);
+        }
+
+        #endregion
+
+        #endregion
 
         internal static readonly Dictionary<int, WPFGestureHandler> PointerOwners = new Dictionary<int, WPFGestureHandler>();
 
@@ -146,6 +240,11 @@ namespace ModernGestures.WPF
             return handler;
         }
 
+        internal static double GetDPIScale(FrameworkElement fe)
+        {
+            return VisualTreeHelper.GetDpi(fe).DpiScaleX;
+        }
+
         private static IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             if (_registeredWindows.TryGetValue(hwnd, out var wnd))
@@ -172,7 +271,7 @@ namespace ModernGestures.WPF
             if (!Win32.GetPointerInfo(pointerID, ref pi))
                 Win32.CheckLastError();
 
-            WPFGestureHandler? handler = null;
+            WPFGestureHandler? handler;
 
             if (msg == Win32.WM_POINTERDOWN)
             {

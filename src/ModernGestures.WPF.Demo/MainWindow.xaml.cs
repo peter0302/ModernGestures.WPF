@@ -40,5 +40,11 @@ namespace ModernGestures.WPF.Demo
         {
 
         }
+
+        private void Rectangle_ManipulationDelta(object sender, ModernManipulationDeltaEventArgs e)
+        {
+            _rectangleTransform.X = e.CumulativeManipulation.Translation.X;
+            _rectangleTransform.Y = e.CumulativeManipulation.Translation.Y;
+        }
     }
 }
